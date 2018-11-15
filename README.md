@@ -4,8 +4,8 @@ The docker image simply runs xtrabackup to create mysql backups. It only preserv
 
 ## Use with docker-compose
 
-The example can be found in `example` directory. Make sure you always mount the image's `/var/lib/mysql` to the mysql service's `/var/lib/mysql` directory. 
-
+The example can be found in `example` directory. Make sure you always mount the image's `/var/lib/mysql` to the mysql service's `/var/lib/mysql` directory.
+Also you need to mount the backup directory to `/backups`.
 
 Example `docker-compose.yml`:
 
@@ -33,4 +33,10 @@ services:
 
 volumes:
   db-data:
+```
+
+To back up your database, you only need to run
+
+```bash
+docker-compose run --rm xtrabackup mysql-backup
 ```

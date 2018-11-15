@@ -9,10 +9,12 @@ ENV MYSQL_USER="root"
 ENV MYSQL_PASSWORD=""
 
 # Copy backup script
-COPY mysql-backup.sh /mysql-backup.sh
+COPY mysql-backup.sh /usr/local/bin/mysql-backup
 
+# Ensure the backup script is executable
+RUN chmod 700 /usr/local/bin/mysql-backup && \
 # Install dependencies
-RUN DEPENDENCIES="lsb-release wget gnupg2" && \
+    DEPENDENCIES="lsb-release wget gnupg2" && \
     apt-get update && \
     apt-get install --no-install-recommends --no-install-suggests -y $DEPENDENCIES && \
 # Install percona repository
@@ -24,9 +26,8 @@ RUN DEPENDENCIES="lsb-release wget gnupg2" && \
     apt-get install --no-install-recommends --no-install-suggests -y \
     percona-xtrabackup-24 \
     mysql-client && \
-#Tidy up
+# Tidy up
     rm -f percona-release_0.1-6.$(lsb_release -sc)_all.deb && \
     apt-get remove --purge -y ${DEPENDENCIES} && \
     rm -rf /var/lib/apt/lists/* && \
-    unset DEPENDENCIES && \
-    alias backup="/mysql-backup.sh"
+    unset DEPENDENCIES

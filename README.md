@@ -22,7 +22,7 @@ services:
     ports:
     - '3306:3306'
   xtrabackup:
-    image: webtoolsdev/xtrabackup:latest
+    image: webtoolsdev/simple-docker-xtrabackup:latest
     environment:
       MYSQL_HOST: ${MYSQL_HOST}
       MYSQL_USER: ${MYSQL_USER}
